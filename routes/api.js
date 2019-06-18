@@ -1,22 +1,15 @@
 const express = require("express");
 const router = express.Router();
-// const User = require("../models/User");
+const User = require("../models/User");
+const { ensureAuthenticated } = require("../config/auth");
 
 router.get("/", (req,res) => {
     res.send("api")
 });
-router.post("/lists", (req,res) => {
-    const {title,content} = req.body;
-    console.log(title,content);
-    const newList = new List({
-       title,
-       content 
-    });
-    newList.save()
-        .then(list => {
-            res.setHeader("Content-Type", "text/html")
-            res.json({"_id" : list["_id"] })
-        }).catch(err => console.log(err))
+router.post("/lists", ensureAuthenticated, (req,res) => {
+    const {title,content,UserID} = req.body;
+    console.log(title,content,UserID);
+    User.findById()
 });
 
 

@@ -9,6 +9,7 @@ $(document).ready(function() {
     });
     
     $(".submit").on("click", function(){
+        const UserID = $("#userID").text();
         let title = $("#listTitle").val();
         let tasks = $(".list").children().find(".task").find(".task-text");
         let content = [];
@@ -18,7 +19,7 @@ $(document).ready(function() {
         console.log(content)
         
         async function createPost(){
-        let data = {title,content};
+        let data = {title,content, UserID};
         const option = {
             method: "POST",
             mode: "cors",

@@ -8,48 +8,54 @@ const flash = require("connect-flash");
 const passport = require("passport");
 
 const app = express();
+// Passport Config
 require("./config/passport")(passport);
 
-//Connect to DB
+// DB Config
 const db = require("./config/keys").MongoURI;
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+// Connect to MongoDB
 mongoose.connect(db)
     .then(() => console.log("How can I get all users hear?"))
     .catch(err => console.log(err));
 
-//EJS 
+// EJS
 app.use(expressLayouts);
-app.set("view engine","ejs");
+app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-//Express Session
-app.use(session({
+// Express body parser
+
+// Express session
+app.use(
+  session({
     secret: "secret",
     resave: true,
     saveUninitialized: true
-}));
+  })
+);
+
+// Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-//Connect flash
+// Connect flash
 app.use(flash());
-//Global Vars
-app.use((req,res,next) => {
-    res.locals.success_msg = req.flash("success_msg");
-    res.locals.error_msg = req.flash("error_msg");
-    res.locals.error_pass = req.flash("error_pass");
-    next();
+
+// Global variables
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
 });
 
-
-//Routes
+// Routes
 const indexRoutes = require("./routes/index");
 const userRoutes = require("./routes/users");
 const dashboard = require("./routes/dashboard");
@@ -57,7 +63,7 @@ const api = require("./routes/api");
 
 app.use("/",indexRoutes);
 app.use("/users",userRoutes);
-app.use("/dashboard",dashboard);
+app.use("/dashboard", dashboard);
 app.use("/api",api);
 
 const PORT = process.env.PORT || 8080;
