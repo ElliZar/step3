@@ -12,9 +12,9 @@ $(document).ready(function() {
         const UserID = $("#userID").text();
         let title = $("#listTitle").val();
         let tasks = $(".list").children().find(".task").find(".task-text");
-        let content = [];
-        $( tasks ).each(function() {
-            content.unshift($(this).text());
+        let content = {};
+        $(tasks).each(function(index) {
+            content[index] = $(this).text();
         });
         console.log(content)
         

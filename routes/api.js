@@ -9,7 +9,13 @@ router.get("/", (req,res) => {
 router.post("/lists", ensureAuthenticated, (req,res) => {
     const {title,content,UserID} = req.body;
     console.log(title,content,UserID);
-    User.findById()
+    User.find({_id:UserID})
+        .then(data => {
+            const doc = data[0];
+            console.log(doc);
+        })
+        .catch(err => console.log(err))
+        
 });
 
 
