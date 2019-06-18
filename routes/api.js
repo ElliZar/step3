@@ -7,14 +7,19 @@ router.get("/", (req,res) => {
     res.send("api")
 });
 router.post("/lists", ensureAuthenticated, (req,res) => {
-    const {title,content,UserID} = req.body;
-    console.log(title,content,UserID);
+    const {content,UserID} = req.body;
+    console.log(content,UserID);
     User.find({_id:UserID})
         .then(data => {
             const doc = data[0];
-            console.log(doc);
+            console.log(data);
+            console.log(content);
+            const lists = doc["lists"];
+            lists.push(content);
+            doc.save(content);
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
+    
         
 });
 

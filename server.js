@@ -66,7 +66,7 @@ app.use("/users",userRoutes);
 app.use("/dashboard", dashboard);
 app.use("/api",api);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {
     if(err){
         console.log("Something go wrong");

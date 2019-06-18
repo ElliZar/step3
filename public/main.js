@@ -13,13 +13,14 @@ $(document).ready(function() {
         let title = $("#listTitle").val();
         let tasks = $(".list").children().find(".task").find(".task-text");
         let content = {};
+        content["title"] = title;
         $(tasks).each(function(index) {
             content[index] = $(this).text();
         });
         console.log(content)
         
         async function createPost(){
-        let data = {title,content, UserID};
+        let data = {content, UserID};
         const option = {
             method: "POST",
             mode: "cors",

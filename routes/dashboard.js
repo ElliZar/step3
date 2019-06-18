@@ -3,11 +3,16 @@ const router = express.Router();
 const { ensureAuthenticated } = require("../config/auth");
 
 router.get("/",ensureAuthenticated, (req,res) => {
-    res.render("dashboard", {user: req.user._id});
+    const list = req.user.lists;
+
+    // for(let i = 0; i < list.length; i++){
+    //     console.log(list[i]);
+    // }
+    res.render("dashboard", {user: req.user._id, list});
 });
 
 router.get("/lists" ,ensureAuthenticated, (req,res) => {
-    res.render("listPage",{user: req.user._id})
+    res.render("listPage",{user: req.user._id});
 });
 
 router.get("/lists/:id" , (req,res) => {
